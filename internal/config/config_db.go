@@ -17,7 +17,7 @@ func (c *Config) connectDb() error {
 
 	sqlDB, err := db.DB()
 
-	if (err != nil) {
+	if err != nil {
 		return err
 	}
 

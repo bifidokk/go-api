@@ -7,7 +7,6 @@ import (
 	"gorm.io/gorm"
 )
 
-
 type Config struct {
 	db *gorm.DB
 }
@@ -20,7 +19,7 @@ func NewConfig() *Config {
 
 func Init(c *Config) error {
 	start := time.Now()
-	
+
 	if err := c.connectDb(); err != nil {
 		return err
 	}
