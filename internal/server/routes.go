@@ -9,4 +9,5 @@ var APIv1 *gin.RouterGroup
 
 func RegisterRoutes(router *gin.Engine) {
 	api.Ping(APIv1)
+	api.GetNotes(APIv1)
 }

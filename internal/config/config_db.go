@@ -1,8 +1,10 @@
 package config
 
 import (
+	"log"
 	"time"
 
+	"github.com/bifidokk/go-api/internal/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,5 +29,15 @@ func (c *Config) connectDb() error {
 
 	c.db = db
 
+	entity.SetDbProvider(c)
+
 	return nil
+}
+
+func (c *Config) Db() *gorm.DB {
+	if c.db == nil {
+		log.Fatal("config: database not connected")
+	}
+
+	return c.db
 }
