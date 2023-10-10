@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/bifidokk/go-api/internal/entity"
+	"github.com/bifidokk/go-api/internal/query"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -29,7 +29,7 @@ func (c *Config) connectDb() error {
 
 	c.db = db
 
-	entity.SetDbProvider(c)
+	query.SetDbProvider(c)
 
 	return nil
 }
