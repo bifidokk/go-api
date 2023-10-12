@@ -10,8 +10,7 @@ import (
 )
 
 func (c *Config) connectDb() error {
-	dsn := "host=localhost user=postgres password=postgres dbname=api port=5432"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(c.Env.DbDsn), &gorm.Config{})
 
 	if err != nil || db == nil {
 		return err

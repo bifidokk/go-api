@@ -10,14 +10,14 @@ import (
 )
 
 func main() {
-    stmts, err := gormschema.New("postgres").Load(
+	stmts, err := gormschema.New("postgres").Load(
 		&entity.Note{},
 	)
 
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "failed to load gorm schema: %v\n", err)
-        os.Exit(1)
-    }
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to load gorm schema: %v\n", err)
+		os.Exit(1)
+	}
 
-    io.WriteString(os.Stdout, stmts)
+	io.WriteString(os.Stdout, stmts)
 }

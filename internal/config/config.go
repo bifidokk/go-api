@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	db *gorm.DB
+	db	*gorm.DB
+	Env *Env
 }
 
 func NewConfig() *Config {
@@ -19,6 +20,8 @@ func NewConfig() *Config {
 
 func Init(c *Config) error {
 	start := time.Now()
+
+	c.loadEnvironmentVariables()
 
 	if err := c.connectDb(); err != nil {
 		return err
