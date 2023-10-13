@@ -4,7 +4,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/bifidokk/go-api/internal/query"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,9 +26,7 @@ func (c *Config) connectDb() error {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	c.db = db
-
-	query.SetDbProvider(c)
-
+	
 	return nil
 }
 
