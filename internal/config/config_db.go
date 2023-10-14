@@ -26,7 +26,7 @@ func (c *Config) connectDb() error {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	c.db = db
-	
+
 	return nil
 }
 

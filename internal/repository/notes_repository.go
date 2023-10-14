@@ -14,7 +14,7 @@ type NoteRepository interface {
 }
 
 func NewNoteRepository(db *gorm.DB) NoteRepository {
-	return &noteRepository {
+	return &noteRepository{
 		database: db,
 	}
 }

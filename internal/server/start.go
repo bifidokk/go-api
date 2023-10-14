@@ -13,7 +13,6 @@ func Start(conf *config.Config) {
 		log.Printf("server: %s", err)
 	}
 
-	APIv1 = router.Group("/")
 	RegisterRoutes(router, conf)
 
 	router.Run("localhost:8081")

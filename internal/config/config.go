@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	db	*gorm.DB
+	db  *gorm.DB
 	Env *Env
 }
 
