@@ -19,8 +19,8 @@ func NewNoteRepository(db *gorm.DB) NoteRepository {
 	}
 }
 
-func (tr *noteRepository) FindAll() (results entity.Notes, err error) {
-	err = tr.database.Find(&results).Error
+func (nr *noteRepository) FindAll() (results entity.Notes, err error) {
+	err = nr.database.Find(&results).Error
 
 	return results, err
 }
