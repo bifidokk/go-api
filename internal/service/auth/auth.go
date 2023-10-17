@@ -11,8 +11,8 @@ import (
 
 type auth struct {
 	userRepository repository.UserRepository
-	jwtSecret string
-	jwtTtl int
+	jwtSecret      string
+	jwtTtl         int
 }
 
 type Auth interface {
@@ -21,14 +21,14 @@ type Auth interface {
 }
 
 func NewAuth(
-		userRepository repository.UserRepository, 
-		jwtSecret string, 
-		jwtTtl int,
-	) Auth {
+	userRepository repository.UserRepository,
+	jwtSecret string,
+	jwtTtl int,
+) Auth {
 	return &auth{
 		userRepository: userRepository,
-		jwtSecret:           jwtSecret,
-		jwtTtl: jwtTtl,
+		jwtSecret:      jwtSecret,
+		jwtTtl:         jwtTtl,
 	}
 }
 
