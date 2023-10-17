@@ -9,6 +9,7 @@ import (
 type Env struct {
 	DbDsn     string `mapstructure:"DB_DSN"`
 	JwtSecret string `mapstructure:"JWT_SECRET"`
+	JwtTtl    uint   `mapstructure:"JWT_TTL"`
 }
 
 func (c *Config) loadEnvironmentVariables() {

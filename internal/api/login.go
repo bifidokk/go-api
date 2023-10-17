@@ -12,7 +12,7 @@ import (
 
 func Login(router *gin.RouterGroup, conf *config.Config) {
 	var userRepository = repository.NewUserRepository(conf.Db())
-	var authService = auth.NewAuth(userRepository)
+	var authService = auth.NewAuth(userRepository, conf.Env.JwtSecret, int(conf.Env.JwtTtl))
 
 	router.POST("/login", func(c *gin.Context) {
 		var request auth.LoginRequest
@@ -27,7 +27,8 @@ func Login(router *gin.RouterGroup, conf *config.Config) {
 		token, err := authService.Authenticate(request)
 
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, "Unauthorized")
+			log.Println("Authentication error:" + err.Error())
+			c.AbortWithStatusJSON(http.StatusUnauthorized, nil)
 			return
 		}
 

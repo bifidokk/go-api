@@ -12,6 +12,7 @@ import (
 func main() {
 	stmts, err := gormschema.New("postgres").Load(
 		&entity.Note{},
+		&entity.User{},
 	)
 
 	if err != nil {

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	jwtauth "github.com/bifidokk/go-api/internal/service"
+	"github.com/bifidokk/go-api/internal/service/token"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +23,7 @@ func JwtAuthMiddleware(secret string) gin.HandlerFunc {
 			return
 		}
 
-		authorized, err := jwtauth.IsAuthorized(authHeaderParts[1], secret)
+		authorized, err := token.IsAuthorized(authHeaderParts[1], secret)
 
 		if !authorized || err != nil {
 			log.Println("JwtAuthMiddleware authorization error: " + err.Error())
