@@ -28,7 +28,9 @@ func Login(router *gin.RouterGroup, conf *config.Config) {
 
 		if err != nil {
 			log.Println("Authentication error:" + err.Error())
-			c.AbortWithStatusJSON(http.StatusUnauthorized, nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": "Invalid credentials",
+			})
 			return
 		}
 
