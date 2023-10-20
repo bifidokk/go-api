@@ -22,7 +22,9 @@ func Signup(router *gin.RouterGroup, conf *config.Config) {
 
 		if err != nil {
 			log.Println("Validation error: " + err.Error())
-			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, nil)
+			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
+				"error": err.Error(),
+			})
 			return
 		}
 

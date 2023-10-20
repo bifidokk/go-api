@@ -13,7 +13,8 @@ func Start(conf *config.Config) {
 		log.Printf("server: %s", err)
 	}
 
+	RegisterValidators()
 	RegisterRoutes(router, conf)
-
+	
 	router.Run("localhost:8081")
 }
