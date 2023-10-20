@@ -15,6 +15,6 @@ func Start(conf *config.Config) {
 
 	RegisterValidators()
 	RegisterRoutes(router, conf)
-	
+
 	router.Run("localhost:8081")
 }
