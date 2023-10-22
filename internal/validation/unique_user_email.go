@@ -21,6 +21,8 @@ func NewUserEmailUniqueValidator(userRepository repository.UserRepository) UserE
 
 func (v *userEmailUniqueValidator) GetValidator() validator.Func {
 	return func(fl validator.FieldLevel) bool {
-		return false
+		_, err := v.userRepository.FindByEmail(fl.Field().String())
+
+		return err != nil
 	}
 }
