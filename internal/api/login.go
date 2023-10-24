@@ -5,14 +5,16 @@ import (
 	"net/http"
 
 	"github.com/bifidokk/go-api/internal/config"
-	"github.com/bifidokk/go-api/internal/repository"
 	"github.com/bifidokk/go-api/internal/service/auth"
 	"github.com/gin-gonic/gin"
 )
 
 func Login(router *gin.RouterGroup, conf *config.Config) {
-	var userRepository = repository.NewUserRepository(conf.Db())
-	var authService = auth.NewAuth(userRepository, conf.Env.JwtSecret, int(conf.Env.JwtTtl))
+	var authService = auth.NewAuth(
+		conf.Repositories.UserRepository,
+		conf.Env.JwtSecret,
+		int(conf.Env.JwtTtl),
+	)
 
 	router.POST("/login", func(c *gin.Context) {
 		var request auth.LoginRequest

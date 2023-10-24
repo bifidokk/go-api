@@ -8,8 +8,9 @@ import (
 )
 
 type Config struct {
-	db  *gorm.DB
-	Env *Env
+	db           *gorm.DB
+	Env          *Env
+	Repositories *Repositories
 }
 
 func NewConfig() *Config {
