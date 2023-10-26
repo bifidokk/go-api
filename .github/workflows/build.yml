@@ -17,3 +17,8 @@ jobs:
       - run: go mod download
       - name: Build
         run: go build ./cmd/app/
+      - uses: ariga/setup-atlas@v0
+      - uses: ariga/atlas-action/migrate/lint@v1
+        with:
+          dir: './migrations'
+          dev-url: "mysql://root:pass@localhost:3306/dev"
