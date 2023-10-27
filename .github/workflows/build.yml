@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: go build ./cmd/app/
       - uses: ariga/setup-atlas@v0
-      - uses: ariga/atlas-action/migrate/lint@v1
+      - uses: ariga/atlas-action/migrate/apply@v1
         with:
           dir: 'file://migrations'
-          dev-url: "postgres://postgres:postgres@localhost:5432/api?search_path=public&sslmode=disable"
+          url: "postgres://postgres:postgres@localhost:5432/api?search_path=public&sslmode=disable"
