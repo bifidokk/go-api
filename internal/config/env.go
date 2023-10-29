@@ -13,7 +13,7 @@ type Env struct {
 }
 
 func (c *Config) loadEnvironmentVariables() {
-	viper.SetConfigFile("./.env")
+	viper.SetConfigFile(ProjectRoot + "/.env")
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatal("Error reading env file", err)
