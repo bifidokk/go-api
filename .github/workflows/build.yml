@@ -32,3 +32,5 @@ jobs:
         with:
           dir: 'file://migrations'
           url: "postgres://postgres:postgres@localhost:5432/api?search_path=public&sslmode=disable"
+      - name: Run tests
+        run: go test ./...
