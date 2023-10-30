@@ -10,7 +10,7 @@ import (
 
 func TestPing(t *testing.T) {
 	t.Run("successful request", func(t *testing.T) {
-		app, router, _ := NewApiTest()
+		app, router := NewApiTest()
 
 		Ping(router)
 

@@ -3,21 +3,28 @@ package api
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"testing"
 
 	"github.com/bifidokk/go-api/internal/config"
 	"github.com/gin-gonic/gin"
 )
 
-func NewApiTest() (app *gin.Engine, router *gin.RouterGroup, conf *config.Config) {
+func TestMain(m *testing.M) {
+	conf := config.NewConfig()
+	config.Init(conf)
+
+	code := m.Run()
+	os.Exit(code)
+}
+
+func NewApiTest() (app *gin.Engine, router *gin.RouterGroup) {
 	gin.SetMode(gin.TestMode)
 
 	app = gin.New()
 	router = app.Group("/public")
 
-	conf = config.NewConfig()
-	config.Init(conf)
-
-	return app, router, conf
+	return app, router
 }
 
 func PerformRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
