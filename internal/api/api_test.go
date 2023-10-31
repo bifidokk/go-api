@@ -11,8 +11,8 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	conf := config.NewConfig()
-	config.Init(conf)
+	conf := config.NewTestConfig()
+	config.InitTest(conf)
 
 	code := m.Run()
 	os.Exit(code)

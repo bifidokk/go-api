@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/bifidokk/go-api/internal/fixtures"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -36,4 +37,8 @@ func (c *Config) Db() *gorm.DB {
 	}
 
 	return c.db
+}
+
+func (c *Config) InitTestDb() {
+	fixtures.ResetTestFixtures()
 }

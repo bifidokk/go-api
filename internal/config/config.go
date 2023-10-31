@@ -32,3 +32,15 @@ func Init(c *Config) error {
 
 	return nil
 }
+
+func InitTest(c *Config) error {
+	c.loadEnvironmentVariables()
+
+	if err := c.connectDb(); err != nil {
+		return err
+	}
+
+	c.InitTestDb()
+
+	return nil
+}
