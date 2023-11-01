@@ -13,3 +13,7 @@ type Note struct {
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 }
+
+func (Note) TableName() string {
+	return "notes"
+}

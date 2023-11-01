@@ -40,5 +40,5 @@ func (c *Config) Db() *gorm.DB {
 }
 
 func (c *Config) InitTestDb() {
-	fixtures.ResetTestFixtures()
+	fixtures.Entities.ResetTestFixtures(c.db)
 }
