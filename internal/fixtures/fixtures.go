@@ -16,6 +16,7 @@ var Entities = Tables{
 
 func (list Tables) ResetTestFixtures(db *gorm.DB) {
 	list.Truncate(db)
+	CreateTestFixtures(db)
 }
 
 func (list Tables) Truncate(db *gorm.DB) {
@@ -26,4 +27,8 @@ func (list Tables) Truncate(db *gorm.DB) {
 			fmt.Printf("Migrate: %s in %s\n", err, tableName)
 		}
 	}
+}
+
+func CreateTestFixtures(db *gorm.DB) {
+	CreateUserFixtures(db)
 }
