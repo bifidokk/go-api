@@ -7,6 +7,15 @@ import (
 	"gorm.io/gorm"
 )
 
+type fixtures struct {
+	database *gorm.DB
+	tables   Tables
+}
+
+type Fixtures interface {
+	ResetTestFixtures()
+}
+
 type Tables map[string]interface{}
 
 var Entities = Tables{
@@ -14,14 +23,21 @@ var Entities = Tables{
 	entity.User{}.TableName(): &entity.User{},
 }
 
-func (list Tables) ResetTestFixtures(db *gorm.DB) {
-	list.Truncate(db)
-	CreateTestFixtures(db)
+func NewFixtures(db *gorm.DB) Fixtures {
+	return &fixtures{
+		database: db,
+		tables:   Entities,
+	}
 }
 
-func (list Tables) Truncate(db *gorm.DB) {
-	for tableName := range list {
-		if err := db.Exec(fmt.Sprintf("DELETE FROM %s", tableName)).Error; err == nil {
+func (fixtures *fixtures) ResetTestFixtures() {
+	fixtures.Truncate()
+	fixtures.CreateTestFixtures()
+}
+
+func (fixtures *fixtures) Truncate() {
+	for tableName := range fixtures.tables {
+		if err := fixtures.database.Exec(fmt.Sprintf("DELETE FROM %s", tableName)).Error; err == nil {
 			fmt.Println("Remove data from", tableName)
 		} else if err.Error() != "record not found" {
 			fmt.Printf("Migrate: %s in %s\n", err, tableName)
@@ -29,6 +45,6 @@ func (list Tables) Truncate(db *gorm.DB) {
 	}
 }
 
-func CreateTestFixtures(db *gorm.DB) {
-	CreateUserFixtures(db)
+func (fixtures *fixtures) CreateTestFixtures() {
+	CreateUserFixtures(fixtures.database)
 }
