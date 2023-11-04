@@ -1,6 +1,7 @@
 package fixtures
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/bifidokk/go-api/internal/entity"
@@ -22,6 +23,8 @@ var UserFixtures = UserMap{
 }
 
 func CreateUserFixtures(db *gorm.DB) {
+	fmt.Println("Create user fixtures")
+
 	for _, entity := range UserFixtures {
 		password, err := bcrypt.GenerateFromPassword(
 			[]byte(entity.Password),

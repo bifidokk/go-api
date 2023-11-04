@@ -4,11 +4,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/bifidokk/go-api/internal/config"
 	"github.com/gin-gonic/gin"
-) 
+)
 
 func TestMain(m *testing.M) {
 	code := m.Run()
@@ -31,6 +32,18 @@ func NewApiTest() (app *gin.Engine, router *gin.RouterGroup, conf *config.Config
 func PerformRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
 	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	return w
+}
+
+func PerformRequestWithBody(r http.Handler, method, path, body string) *httptest.ResponseRecorder {
+	reader := strings.NewReader(body)
+	req, _ := http.NewRequest(method, path, reader)
+	req.Header.Set("Content-Type", "application/json")
+
+	w := httptest.NewRecorder()
+
 	r.ServeHTTP(w, req)
 
 	return w
