@@ -13,7 +13,7 @@ func Start(conf *config.Config) {
 		log.Printf("server: %s", err)
 	}
 
-	RegisterRepositories(conf)
+	config.RegisterRepositories(conf)
 	RegisterValidators(conf)
 	RegisterRoutes(router, conf)
 

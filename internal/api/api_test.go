@@ -8,23 +8,24 @@ import (
 
 	"github.com/bifidokk/go-api/internal/config"
 	"github.com/gin-gonic/gin"
-)
+) 
 
 func TestMain(m *testing.M) {
-	conf := config.NewTestConfig()
-	config.InitTest(conf)
-
 	code := m.Run()
 	os.Exit(code)
 }
 
-func NewApiTest() (app *gin.Engine, router *gin.RouterGroup) {
+func NewApiTest() (app *gin.Engine, router *gin.RouterGroup, conf *config.Config) {
+	conf = config.NewTestConfig()
+	config.InitTest(conf)
+
 	gin.SetMode(gin.TestMode)
 
 	app = gin.New()
 	router = app.Group("/public")
+	config.RegisterRepositories(conf)
 
-	return app, router
+	return app, router, conf
 }
 
 func PerformRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
