@@ -10,7 +10,7 @@ import (
 )
 
 type InvalidLoginRequest struct {
-    Email string `json:"email"`
+	Email string `json:"email"`
 }
 
 func TestLogin(t *testing.T) {
@@ -61,7 +61,7 @@ func TestLogin(t *testing.T) {
 		Login(router, conf)
 
 		body, _ := json.Marshal(InvalidLoginRequest{
-			Email:    "non-existing-user@test.com",
+			Email: "non-existing-user@test.com",
 		})
 
 		r := PerformRequestWithBody(app, "POST", "/public/login", string(body))
