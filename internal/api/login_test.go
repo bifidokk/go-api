@@ -26,6 +26,10 @@ func TestLogin(t *testing.T) {
 		r := PerformRequestWithBody(app, "POST", "/public/login", string(body))
 
 		assert.Equal(t, http.StatusOK, r.Code)
+
+		responseContent := HTTPBodyToMap(r.Body)
+		assert.Contains(t, responseContent, "token")
+		assert.IsType(t, *new(string), responseContent["token"])
 	})
 
 	t.Run("failed login with wrong credentials", func(t *testing.T) {

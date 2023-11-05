@@ -1,6 +1,8 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -47,4 +49,11 @@ func PerformRequestWithBody(r http.Handler, method, path, body string) *httptest
 	r.ServeHTTP(w, req)
 
 	return w
+}
+
+func HTTPBodyToMap(body *bytes.Buffer) map[string]any {
+	response := map[string]any{}
+	_ = json.NewDecoder(body).Decode(&response)
+
+	return response
 }
