@@ -14,7 +14,7 @@ func Start(conf *config.Config) {
 	}
 
 	config.RegisterRepositories(conf)
-	RegisterValidators(conf)
+	config.RegisterValidators(conf)
 	RegisterRoutes(router, conf)
 
 	router.Run("localhost:8081")

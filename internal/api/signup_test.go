@@ -21,6 +21,6 @@ func TestSignUp(t *testing.T) {
 
 		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body))
 
-		assert.Equal(t, http.StatusOK, r.Code)
+		assert.Equal(t, http.StatusCreated, r.Code)
 	})
 }

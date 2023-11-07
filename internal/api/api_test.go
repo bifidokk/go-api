@@ -27,6 +27,7 @@ func NewApiTest() (app *gin.Engine, router *gin.RouterGroup, conf *config.Config
 	app = gin.New()
 	router = app.Group("/public")
 	config.RegisterRepositories(conf)
+	config.RegisterValidators(conf)
 
 	return app, router, conf
 }
