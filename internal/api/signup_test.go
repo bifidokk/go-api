@@ -23,4 +23,32 @@ func TestSignUp(t *testing.T) {
 
 		assert.Equal(t, http.StatusCreated, r.Code)
 	})
+
+	t.Run("unsuccessful signup because of validation error", func(t *testing.T) {
+		app, router, conf := NewApiTest()
+		Signup(router, conf)
+
+		body, _ := json.Marshal(signup.SignupRequest{
+			Email:    "new-user",
+			Password: "123456!",
+		})
+
+		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body))
+
+		assert.Equal(t, http.StatusUnprocessableEntity, r.Code)
+	})
+
+	t.Run("unsuccessful signup because of existing email", func(t *testing.T) {
+		app, router, conf := NewApiTest()
+		Signup(router, conf)
+
+		body, _ := json.Marshal(signup.SignupRequest{
+			Email:    "user2@test.com",
+			Password: "123456!",
+		})
+
+		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body))
+
+		assert.Equal(t, http.StatusUnprocessableEntity, r.Code)
+	})
 }
