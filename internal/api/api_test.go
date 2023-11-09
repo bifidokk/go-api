@@ -10,26 +10,41 @@ import (
 	"testing"
 
 	"github.com/bifidokk/go-api/internal/config"
+	"github.com/bifidokk/go-api/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
+
+type apiRouters struct {
+	publicRouter *gin.RouterGroup
+	apiRouter    *gin.RouterGroup
+}
 
 func TestMain(m *testing.M) {
 	code := m.Run()
 	os.Exit(code)
 }
 
-func NewApiTest() (app *gin.Engine, router *gin.RouterGroup, conf *config.Config) {
+func NewApiTest() (app *gin.Engine, routers *apiRouters, conf *config.Config) {
 	conf = config.NewTestConfig()
 	config.InitTest(conf)
 
 	gin.SetMode(gin.TestMode)
 
 	app = gin.New()
-	router = app.Group("/public")
+
+	publicRouter := app.Group("/public")
+	apiRouter := app.Group("/api")
+	apiRouter.Use(middleware.JwtAuthMiddleware(conf.Env.JwtSecret))
+
+	routers = &apiRouters{
+		publicRouter: publicRouter,
+		apiRouter:    apiRouter,
+	}
+
 	config.RegisterRepositories(conf)
 	config.RegisterValidators(conf)
 
-	return app, router, conf
+	return app, routers, conf
 }
 
 func PerformRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {

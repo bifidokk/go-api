@@ -15,8 +15,8 @@ type InvalidLoginRequest struct {
 
 func TestLogin(t *testing.T) {
 	t.Run("successful login", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Login(router, conf)
+		app, routers, conf := NewApiTest()
+		Login(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(auth.LoginRequest{
 			Email:    "user@test.com",
@@ -33,8 +33,8 @@ func TestLogin(t *testing.T) {
 	})
 
 	t.Run("failed login with wrong credentials", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Login(router, conf)
+		app, routers, conf := NewApiTest()
+		Login(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(auth.LoginRequest{
 			Email:    "non-existing-user@test.com",
@@ -47,8 +47,8 @@ func TestLogin(t *testing.T) {
 	})
 
 	t.Run("failed login with wrong password", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Login(router, conf)
+		app, routers, conf := NewApiTest()
+		Login(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(auth.LoginRequest{
 			Email:    "user@test.com",
@@ -61,8 +61,8 @@ func TestLogin(t *testing.T) {
 	})
 
 	t.Run("failed login without required fields", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Login(router, conf)
+		app, routers, conf := NewApiTest()
+		Login(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(InvalidLoginRequest{
 			Email: "non-existing-user@test.com",

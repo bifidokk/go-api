@@ -11,8 +11,8 @@ import (
 
 func TestSignUp(t *testing.T) {
 	t.Run("successful signup", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Signup(router, conf)
+		app, routers, conf := NewApiTest()
+		Signup(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(signup.SignupRequest{
 			Email:    "new-user@test.com",
@@ -25,8 +25,8 @@ func TestSignUp(t *testing.T) {
 	})
 
 	t.Run("unsuccessful signup because of validation error", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Signup(router, conf)
+		app, routers, conf := NewApiTest()
+		Signup(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(signup.SignupRequest{
 			Email:    "new-user",
@@ -39,8 +39,8 @@ func TestSignUp(t *testing.T) {
 	})
 
 	t.Run("unsuccessful signup because of existing email", func(t *testing.T) {
-		app, router, conf := NewApiTest()
-		Signup(router, conf)
+		app, routers, conf := NewApiTest()
+		Signup(routers.publicRouter, conf)
 
 		body, _ := json.Marshal(signup.SignupRequest{
 			Email:    "user2@test.com",
