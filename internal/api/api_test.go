@@ -47,9 +47,14 @@ func NewApiTest() (app *gin.Engine, routers *apiRouters, conf *config.Config) {
 	return app, routers, conf
 }
 
-func PerformRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
+func PerformRequest(r http.Handler, method, path string, headers map[string]string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
 	w := httptest.NewRecorder()
+
+	for k, v := range headers {
+        req.Header.Set(k, v)
+    }
+
 	r.ServeHTTP(w, req)
 
 	return w

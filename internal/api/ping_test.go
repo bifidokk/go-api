@@ -14,7 +14,7 @@ func TestPing(t *testing.T) {
 
 		Ping(routers.publicRouter)
 
-		r := PerformRequest(app, "GET", "/public/ping")
+		r := PerformRequest(app, "GET", "/public/ping", map[string]string{})
 
 		assert.Equal(t, http.StatusOK, r.Code)
 
