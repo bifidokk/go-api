@@ -29,3 +29,13 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  migrations:
+    container_name: gin_migrations
+    build:
+      context: ../
+      dockerfile: ./.docker/migrations/Dockerfile
+    command: migrate apply --url ${POSTGRES_MIGRATION_DSN} --dir "file://migrations"
+    depends_on:
+      postgres:
+        condition: service_healthy
