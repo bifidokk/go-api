@@ -1,10 +1,18 @@
-FROM golang:1.21
+FROM golang:1.21 as builder
 
 WORKDIR /app
-
-COPY . .
-RUN go mod download && go mod verify
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . ./
 
 RUN go build ./cmd/app/main.go
 
-CMD ["/app/main"]
+
+FROM alpine:latest
+RUN apk add --no-cache ca-certificates
+
+WORKDIR /app
+COPY --from=builder /app .
+
+EXPOSE 9002
+CMD ["./main"]
