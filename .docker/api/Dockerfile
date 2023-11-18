@@ -9,7 +9,8 @@ RUN go build ./cmd/app/main.go
 
 
 FROM alpine:latest
-RUN apk add --no-cache ca-certificates
+RUN apk add --no-cache ca-certificates libc6-compat
+
 
 WORKDIR /app
 COPY --from=builder /app .
