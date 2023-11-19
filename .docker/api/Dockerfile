@@ -5,9 +5,13 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . ./
 
-ARG DOTENV
+ARG DB_DSN
+ARG JWT_SECRET
+ARG JWT_TTL
 
-RUN echo "$DOTENV" > "./.env"
+RUN echo "$DB_DSN" > "./.env"
+RUN echo "$JWT_SECRET" >> "./.env"
+RUN echo "$JWT_TTL" >> "./.env"
 
 RUN go build ./cmd/app/main.go
 

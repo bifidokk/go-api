@@ -28,7 +28,9 @@ jobs:
           push: true
           tags: bifidokk/gin-api:latest
           build-args: |
-            DOTENV="${{ secrets.DOTENV }}"
+            DB_DSN=${{ secrets.DB_DSN }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            JWT_TTL=${{ secrets.JWT_TTL }}
             
       -
         name: Build and push migration image
