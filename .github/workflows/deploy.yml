@@ -27,6 +27,8 @@ jobs:
           file: ./.docker/api/Dockerfile
           push: true
           tags: bifidokk/gin-api:latest
+          build-args: |
+            TOKEN=123
       -
         name: Build and push migration image
         uses: docker/build-push-action@v2
@@ -35,8 +37,6 @@ jobs:
           file: ./.docker/migrations/Dockerfile
           push: true
           tags: bifidokk/gin-migrations:latest
-          build-args: |
-            TOKEN=123
       - 
         name: Restart Docker compose with fresh images
         uses: appleboy/ssh-action@v0.1.10
