@@ -28,7 +28,7 @@ jobs:
           push: true
           tags: bifidokk/gin-api:latest
           build-args: |
-            TOKEN=123
+            DOTENV=${{ secrets.DOTENV }}
       -
         name: Build and push migration image
         uses: docker/build-push-action@v2

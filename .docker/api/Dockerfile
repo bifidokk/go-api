@@ -5,9 +5,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . ./
 
-ARG TOKEN
+ARG DOTENV
 
-RUN echo "$TOKEN" > "./.env"
+RUN echo "$DOTENV" > "./.env"
 
 RUN go build ./cmd/app/main.go
 
