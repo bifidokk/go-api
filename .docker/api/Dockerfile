@@ -7,7 +7,9 @@ COPY . ./
 
 ARG DOTENV
 
-RUN echo "$DOTENV" > "./.env"
+ENV DOTENV_CONTENT $DOTENV
+
+RUN echo "$DOTENV_CONTENT" > "./.env"
 
 RUN go build ./cmd/app/main.go
 
