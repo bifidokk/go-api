@@ -35,8 +35,8 @@ jobs:
           file: ./.docker/migrations/Dockerfile
           push: true
           tags: bifidokk/gin-migrations:latest
-          secret-envs: |
-            "DOTENV=${{ secrets.DOTENV }}"
+          secrets: |
+            "SECRET=123"
       - 
         name: Restart Docker compose with fresh images
         uses: appleboy/ssh-action@v0.1.10
