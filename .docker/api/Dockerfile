@@ -5,12 +5,13 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . ./
 
+RUN echo "$DOTENV" > "./.env"
+
 RUN go build ./cmd/app/main.go
 
 
 FROM alpine:latest
 RUN apk add --no-cache ca-certificates libc6-compat
-
 
 WORKDIR /app
 COPY --from=builder /app .
