@@ -51,6 +51,7 @@ jobs:
           script: |
             cd /var/www/gin-api
             git pull
+            docker image prune --all --force
             docker compose --file ./.docker/docker-compose.yml pull
             docker compose --file ./.docker/docker-compose.yml down
             docker compose --file ./.docker/docker-compose.yml --env-file ./.docker/.env.prod up -d
