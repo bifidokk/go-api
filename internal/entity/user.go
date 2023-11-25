@@ -8,6 +8,7 @@ type User struct {
 	Password  string `gorm:"type:VARCHAR(255);"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Notes     []Note `gorm:"constraint:OnDelete:CASCADE;"`
 }
 
 func (User) TableName() string {

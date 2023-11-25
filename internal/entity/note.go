@@ -12,6 +12,8 @@ type Note struct {
 	NoteDescription string `gorm:"type:TEXT;"`
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
+	User            User
+	UserID          uint `gorm:"not null"`
 }
 
 func (Note) TableName() string {

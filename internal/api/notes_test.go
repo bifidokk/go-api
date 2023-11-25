@@ -31,7 +31,7 @@ func TestGetNotes(t *testing.T) {
 			int(conf.Env.JwtTtl),
 		)
 
-		headers := map[string]string {
+		headers := map[string]string{
 			"Authorization": "Bearer " + accessToken,
 		}
 

@@ -52,8 +52,8 @@ func PerformRequest(r http.Handler, method, path string, headers map[string]stri
 	w := httptest.NewRecorder()
 
 	for k, v := range headers {
-        req.Header.Set(k, v)
-    }
+		req.Header.Set(k, v)
+	}
 
 	r.ServeHTTP(w, req)
 
