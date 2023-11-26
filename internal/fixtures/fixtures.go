@@ -37,7 +37,7 @@ func (fixtures *fixtures) ResetTestFixtures() {
 
 func (fixtures *fixtures) Truncate() {
 	for tableName := range fixtures.tables {
-		if err := fixtures.database.Exec(fmt.Sprintf("DELETE FROM %s", tableName)).Error; err == nil {
+		if err := fixtures.database.Exec(fmt.Sprintf("TRUNCATE %s RESTART IDENTITY CASCADE", tableName)).Error; err == nil {
 			fmt.Println("Remove data from", tableName)
 		} else if err.Error() != "record not found" {
 			fmt.Printf("Migrate: %s in %s\n", err, tableName)
@@ -47,4 +47,5 @@ func (fixtures *fixtures) Truncate() {
 
 func (fixtures *fixtures) CreateTestFixtures() {
 	CreateUserFixtures(fixtures.database)
+	CreateNoteFixtures(fixtures.database)
 }
