@@ -14,8 +14,9 @@ func Start(conf *config.Config) {
 	}
 
 	config.RegisterRepositories(conf)
+	config.RegisterServices(conf)
 	config.RegisterValidators(conf)
 	RegisterRoutes(router, conf)
 
-	router.Run(":8080")
+	router.Run(":8081")
 }

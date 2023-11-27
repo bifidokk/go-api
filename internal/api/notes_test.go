@@ -19,7 +19,7 @@ func TestGetNotes(t *testing.T) {
 		assert.Equal(t, http.StatusUnauthorized, r.Code)
 	})
 
-	t.Run("succesfull get notes", func(t *testing.T) {
+	t.Run("succesfull get user notes", func(t *testing.T) {
 		app, routers, conf := NewApiTest()
 		GetNotes(routers.apiRouter, conf)
 

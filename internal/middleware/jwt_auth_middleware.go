@@ -5,12 +5,15 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/bifidokk/go-api/internal/config"
 	"github.com/bifidokk/go-api/internal/service/token"
 	"github.com/gin-gonic/gin"
 )
 
-func JwtAuthMiddleware(secret string) gin.HandlerFunc {
+func JwtAuthMiddleware(conf *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		var authService = conf.Services.AuthService
+
 		authHeader := c.Request.Header.Get("Authorization")
 		authHeaderParts := strings.Split(authHeader, " ")
 
@@ -23,19 +26,32 @@ func JwtAuthMiddleware(secret string) gin.HandlerFunc {
 			return
 		}
 
-		authorized, err := token.IsAuthorized(authHeaderParts[1], secret)
+		claims, err := token.ValidateToken(authHeaderParts[1], conf.Env.JwtSecret)
 
-		if !authorized || err != nil {
-			log.Println("JwtAuthMiddleware authorization error: " + err.Error())
-
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"message": "Unauthorized",
-			})
-
-			c.Abort()
+		if err != nil {
+			abortUnauthorized(c, err)
 			return
 		}
 
+		user, err := authService.GetUserByEmail(claims.Email)
+
+		if err != nil {
+			abortUnauthorized(c, err)
+			return
+		}
+
+		c.Set("user", user)
+
 		c.Next()
 	}
+}
+
+func abortUnauthorized(c *gin.Context, err error) {
+	log.Println("JwtAuthMiddleware authorization error: " + err.Error())
+
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"message": "Unauthorized",
+	})
+
+	c.Abort()
 }

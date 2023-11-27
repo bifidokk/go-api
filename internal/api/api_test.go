@@ -34,7 +34,6 @@ func NewApiTest() (app *gin.Engine, routers *apiRouters, conf *config.Config) {
 
 	publicRouter := app.Group("/public")
 	apiRouter := app.Group("/api")
-	apiRouter.Use(middleware.JwtAuthMiddleware(conf.Env.JwtSecret))
 
 	routers = &apiRouters{
 		publicRouter: publicRouter,
@@ -42,7 +41,10 @@ func NewApiTest() (app *gin.Engine, routers *apiRouters, conf *config.Config) {
 	}
 
 	config.RegisterRepositories(conf)
+	config.RegisterServices(conf)
 	config.RegisterValidators(conf)
+
+	apiRouter.Use(middleware.JwtAuthMiddleware(conf))
 
 	return app, routers, conf
 }

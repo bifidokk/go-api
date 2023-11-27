@@ -10,11 +10,7 @@ import (
 )
 
 func Login(router *gin.RouterGroup, conf *config.Config) {
-	var authService = auth.NewAuth(
-		conf.Repositories.UserRepository,
-		conf.Env.JwtSecret,
-		int(conf.Env.JwtTtl),
-	)
+	var authService = conf.Services.AuthService
 
 	router.POST("/login", func(c *gin.Context) {
 		var request auth.LoginRequest

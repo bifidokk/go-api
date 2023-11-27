@@ -11,6 +11,7 @@ type Config struct {
 	db           *gorm.DB
 	Env          *Env
 	Repositories *Repositories
+	Services     *Services
 }
 
 func NewConfig() *Config {
