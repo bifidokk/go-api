@@ -12,7 +12,6 @@ func GetNotes(router *gin.RouterGroup, conf *config.Config) {
 	var noteRepository = repository.NewNoteRepository(conf.Db())
 
 	router.GET("/notes", func(c *gin.Context) {
-
 		if notes, err := noteRepository.FindAll(); err != nil {
 			c.AbortWithStatusJSON(http.StatusNotFound, nil)
 			return
