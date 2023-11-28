@@ -44,7 +44,7 @@ func NewApiTest() (app *gin.Engine, routers *apiRouters, conf *config.Config) {
 	config.RegisterServices(conf)
 	config.RegisterValidators(conf)
 
-	apiRouter.Use(middleware.JwtAuthMiddleware(conf))
+	apiRouter.Use(middleware.JwtAuthMiddleware(conf.Services.AuthService, conf.Env.JwtSecret))
 
 	return app, routers, conf
 }

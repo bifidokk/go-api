@@ -29,7 +29,10 @@ func RegisterRoutes(router *gin.Engine, conf *config.Config) {
 	api.Login(publicGroup, conf)
 	api.Signup(publicGroup, conf)
 
-	apiV1Group.Use(middleware.JwtAuthMiddleware(conf))
+	apiV1Group.Use(middleware.JwtAuthMiddleware(
+		conf.Services.AuthService,
+		conf.Env.JwtSecret,
+	))
 
 	api.GetNotes(apiV1Group, conf)
 }

@@ -5,15 +5,16 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/bifidokk/go-api/internal/config"
+	"github.com/bifidokk/go-api/internal/service/auth"
 	"github.com/bifidokk/go-api/internal/service/token"
 	"github.com/gin-gonic/gin"
 )
 
-func JwtAuthMiddleware(conf *config.Config) gin.HandlerFunc {
+func JwtAuthMiddleware(
+	authService auth.Auth,
+	jwtSecret string,
+) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var authService = conf.Services.AuthService
-
 		authHeader := c.Request.Header.Get("Authorization")
 		authHeaderParts := strings.Split(authHeader, " ")
 
@@ -26,7 +27,7 @@ func JwtAuthMiddleware(conf *config.Config) gin.HandlerFunc {
 			return
 		}
 
-		claims, err := token.ValidateToken(authHeaderParts[1], conf.Env.JwtSecret)
+		claims, err := token.ValidateToken(authHeaderParts[1], jwtSecret)
 
 		if err != nil {
 			abortUnauthorized(c, err)
