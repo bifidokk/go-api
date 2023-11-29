@@ -41,7 +41,7 @@ func JwtAuthMiddleware(
 			return
 		}
 
-		c.Set("user", user)
+		c.Set("user", &user)
 
 		c.Next()
 	}

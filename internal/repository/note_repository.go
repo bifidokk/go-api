@@ -11,6 +11,7 @@ type noteRepository struct {
 
 type NoteRepository interface {
 	FindAll() (entity.Notes, error)
+	FindByUser(user *entity.User) (entity.Notes, error)
 }
 
 func NewNoteRepository(db *gorm.DB) NoteRepository {
@@ -21,6 +22,12 @@ func NewNoteRepository(db *gorm.DB) NoteRepository {
 
 func (nr *noteRepository) FindAll() (results entity.Notes, err error) {
 	err = nr.database.Find(&results).Error
+
+	return results, err
+}
+
+func (nr *noteRepository) FindByUser(user *entity.User) (results entity.Notes, err error) {
+	err = nr.database.Find(&results, entity.Note{UserID: user.ID}).Error
 
 	return results, err
 }
