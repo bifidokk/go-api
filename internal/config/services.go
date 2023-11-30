@@ -1,9 +1,13 @@
 package config
 
-import "github.com/bifidokk/go-api/internal/service/auth"
+import (
+	"github.com/bifidokk/go-api/internal/service/auth"
+	"github.com/bifidokk/go-api/internal/service/note"
+)
 
 type Services struct {
 	AuthService auth.Auth
+	NoteService note.NoteService
 }
 
 func RegisterServices(conf *Config) {
@@ -13,7 +17,12 @@ func RegisterServices(conf *Config) {
 		int(conf.Env.JwtTtl),
 	)
 
+	var noteService = note.NewNoteService(
+		conf.Repositories.NoteRepository,
+	)
+
 	conf.Services = &Services{
 		AuthService: authService,
+		NoteService: noteService,
 	}
 }

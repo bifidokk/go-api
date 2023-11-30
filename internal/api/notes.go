@@ -1,16 +1,17 @@
 package api
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/bifidokk/go-api/internal/config"
 	"github.com/bifidokk/go-api/internal/entity"
-	"github.com/bifidokk/go-api/internal/repository"
+	"github.com/bifidokk/go-api/internal/service/note"
 	"github.com/gin-gonic/gin"
 )
 
 func GetNotes(router *gin.RouterGroup, conf *config.Config) {
-	var noteRepository = repository.NewNoteRepository(conf.Db())
+	var noteRepository = conf.Repositories.NoteRepository
 
 	router.GET("/notes", func(c *gin.Context) {
 		user, _ := c.Get("user")
@@ -21,5 +22,28 @@ func GetNotes(router *gin.RouterGroup, conf *config.Config) {
 		} else {
 			c.JSON(http.StatusOK, notes)
 		}
+	})
+}
+
+func CreateNote(router *gin.RouterGroup, conf *config.Config) {
+	var noteService = conf.Services.NoteService
+
+	router.POST("/notes", func(c *gin.Context) {
+		user, _ := c.Get("user")
+
+		var request note.CreateRequest
+		err := c.ShouldBind(&request)
+
+		if err != nil {
+			log.Println("Validation error: " + err.Error())
+			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		_, err = noteService.CreateNote(request, user.(*entity.User))
+
+		c.JSON(http.StatusCreated, nil)
 	})
 }
