@@ -10,8 +10,8 @@ type userRepository struct {
 }
 
 type UserRepository interface {
-	FindByEmail(email string) (entity.User, error)
-	Create(user entity.User) (entity.User, error)
+	FindByEmail(email string) (*entity.User, error)
+	Create(user *entity.User) (*entity.User, error)
 }
 
 func NewUserRepository(db *gorm.DB) UserRepository {
@@ -20,13 +20,13 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	}
 }
 
-func (ur *userRepository) FindByEmail(email string) (user entity.User, err error) {
+func (ur *userRepository) FindByEmail(email string) (user *entity.User, err error) {
 	err = ur.database.Where("email = ?", email).First(&user).Error
 
 	return user, err
 }
 
-func (ur *userRepository) Create(user entity.User) (entity.User, error) {
+func (ur *userRepository) Create(user *entity.User) (*entity.User, error) {
 	result := ur.database.Create(&user)
 
 	return user, result.Error

@@ -17,7 +17,7 @@ type auth struct {
 
 type Auth interface {
 	Authenticate(request LoginRequest) (string, error)
-	GetUserByEmail(email string) (entity.User, error)
+	GetUserByEmail(email string) (*entity.User, error)
 }
 
 func NewAuth(
@@ -44,7 +44,7 @@ func (auth *auth) Authenticate(request LoginRequest) (string, error) {
 	}
 
 	accessToken, err := token.CreatAccessToken(
-		&user,
+		user,
 		auth.jwtSecret,
 		auth.jwtTtl,
 	)
@@ -56,6 +56,6 @@ func (auth *auth) Authenticate(request LoginRequest) (string, error) {
 	return accessToken, nil
 }
 
-func (auth *auth) GetUserByEmail(email string) (entity.User, error) {
+func (auth *auth) GetUserByEmail(email string) (*entity.User, error) {
 	return auth.userRepository.FindByEmail(email)
 }

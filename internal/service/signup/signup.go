@@ -11,7 +11,7 @@ type signup struct {
 }
 
 type Signup interface {
-	CreateUser(request SignupRequest) (entity.User, error)
+	CreateUser(request SignupRequest) (*entity.User, error)
 }
 
 func NewSignup(userRepository repository.UserRepository) Signup {
@@ -20,22 +20,22 @@ func NewSignup(userRepository repository.UserRepository) Signup {
 	}
 }
 
-func (s *signup) CreateUser(request SignupRequest) (entity.User, error) {
+func (s *signup) CreateUser(request SignupRequest) (*entity.User, error) {
 	encryptedPassword, err := bcrypt.GenerateFromPassword(
 		[]byte(request.Password),
 		bcrypt.DefaultCost,
 	)
 
 	if err != nil {
-		return entity.User{}, err
+		return nil, err
 	}
 
-	user := entity.User{
+	user := &entity.User{
 		Email:    request.Email,
 		Password: string(encryptedPassword),
 	}
 
-	user, err = s.userRepository.Create(user)
+	createdUser, err := s.userRepository.Create(user)
 
-	return user, err
+	return createdUser, err
 }
