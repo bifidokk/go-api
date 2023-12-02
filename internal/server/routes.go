@@ -35,4 +35,5 @@ func RegisterRoutes(router *gin.Engine, conf *config.Config) {
 	))
 
 	api.GetNotes(apiV1Group, conf)
+	api.CreateNote(apiV1Group, conf)
 }
