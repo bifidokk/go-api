@@ -62,9 +62,20 @@ func PerformRequest(r http.Handler, method, path string, headers map[string]stri
 	return w
 }
 
-func PerformRequestWithBody(r http.Handler, method, path, body string) *httptest.ResponseRecorder {
+func PerformRequestWithBody(
+	r http.Handler,
+	method,
+	path,
+	body string,
+	headers map[string]string,
+) *httptest.ResponseRecorder {
 	reader := strings.NewReader(body)
 	req, _ := http.NewRequest(method, path, reader)
+
+	for k, v := range headers {
+		req.Header.Set(k, v)
+	}
+
 	req.Header.Set("Content-Type", "application/json")
 
 	w := httptest.NewRecorder()

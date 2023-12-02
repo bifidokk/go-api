@@ -20,5 +20,12 @@ func NewNoteService(noteRepository repository.NoteRepository) NoteService {
 }
 
 func (noteService *noteService) CreateNote(request CreateRequest, user *entity.User) (*entity.Note, error) {
-	return nil, nil
+	note := &entity.Note{
+		NoteTitle:       request.Title,
+		NoteDescription: request.Description,
+		UserID:          user.ID,
+	}
+
+	createdNote, err := noteService.noteRepository.Create(note)
+	return createdNote, err
 }

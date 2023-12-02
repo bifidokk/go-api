@@ -42,8 +42,11 @@ func CreateNote(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
-		_, err = noteService.CreateNote(request, user.(*entity.User))
-
-		c.JSON(http.StatusCreated, nil)
+		if note, err := noteService.CreateNote(request, user.(*entity.User)); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, nil)
+			return
+		} else {
+			c.JSON(http.StatusCreated, note)
+		}
 	})
 }

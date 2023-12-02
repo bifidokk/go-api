@@ -19,7 +19,7 @@ func TestSignUp(t *testing.T) {
 			Password: "123456!",
 		})
 
-		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body))
+		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body), map[string]string{})
 
 		assert.Equal(t, http.StatusCreated, r.Code)
 	})
@@ -33,7 +33,7 @@ func TestSignUp(t *testing.T) {
 			Password: "123456!",
 		})
 
-		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body))
+		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body), map[string]string{})
 
 		assert.Equal(t, http.StatusUnprocessableEntity, r.Code)
 	})
@@ -47,7 +47,7 @@ func TestSignUp(t *testing.T) {
 			Password: "123456!",
 		})
 
-		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body))
+		r := PerformRequestWithBody(app, "POST", "/public/signup", string(body), map[string]string{})
 
 		assert.Equal(t, http.StatusUnprocessableEntity, r.Code)
 	})
