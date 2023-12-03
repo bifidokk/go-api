@@ -12,7 +12,8 @@ type noteRepository struct {
 type NoteRepository interface {
 	FindAll() (entity.Notes, error)
 	FindByUser(user *entity.User) (entity.Notes, error)
-	Create(note *entity.Note) (*entity.Note, error)
+	FindUserNoteById(user *entity.User, noteId int) (*entity.Note, error)
+	Save(note *entity.Note) (*entity.Note, error)
 }
 
 func NewNoteRepository(db *gorm.DB) NoteRepository {
@@ -33,8 +34,21 @@ func (nr *noteRepository) FindByUser(user *entity.User) (results entity.Notes, e
 	return results, err
 }
 
-func (nr *noteRepository) Create(note *entity.Note) (*entity.Note, error) {
-	result := nr.database.Create(&note)
+func (nr *noteRepository) Save(note *entity.Note) (*entity.Note, error) {
+	result := nr.database.Save(&note)
 
 	return note, result.Error
+}
+
+func (nr *noteRepository) FindUserNoteById(user *entity.User, noteId int) (*entity.Note, error) {
+	var note entity.Note
+
+	result := nr.database.First(
+		&note, entity.Note{
+			ID:     uint(noteId),
+			UserID: user.ID,
+		},
+	)
+
+	return &note, result.Error
 }

@@ -11,6 +11,7 @@ type noteService struct {
 
 type NoteService interface {
 	CreateNote(request CreateRequest, user *entity.User) (*entity.Note, error)
+	UpdateNote(request UpdateRequest, note *entity.Note) (*entity.Note, error)
 }
 
 func NewNoteService(noteRepository repository.NoteRepository) NoteService {
@@ -26,6 +27,14 @@ func (noteService *noteService) CreateNote(request CreateRequest, user *entity.U
 		UserID:          user.ID,
 	}
 
-	createdNote, err := noteService.noteRepository.Create(note)
+	createdNote, err := noteService.noteRepository.Save(note)
+	return createdNote, err
+}
+
+func (noteService *noteService) UpdateNote(request UpdateRequest, note *entity.Note) (*entity.Note, error) {
+	note.NoteTitle = request.Title
+	note.NoteDescription = request.Description
+
+	createdNote, err := noteService.noteRepository.Save(note)
 	return createdNote, err
 }
