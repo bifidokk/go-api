@@ -9,14 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserMap map[string]entity.User
+type UserMap []entity.User
 
 var UserFixtures = UserMap{
-	"user@test.com": {
+	{
 		Email:    "user@test.com",
 		Password: "123456!",
 	},
-	"user2@test.com": {
+	{
 		Email:    "user2@test.com",
 		Password: "123456!",
 	},
@@ -25,14 +25,7 @@ var UserFixtures = UserMap{
 func CreateUserFixtures(db *gorm.DB) {
 	fmt.Println("Create user fixtures")
 
-	keys := make([]string, 0, len(UserFixtures))
-
-	for k := range UserFixtures {
-		keys = append(keys, k)
-	}
-
-	for _, key := range keys {
-		entity := UserFixtures[key]
+	for _, entity := range UserFixtures {
 		password, err := bcrypt.GenerateFromPassword(
 			[]byte(entity.Password),
 			bcrypt.DefaultCost,

@@ -26,7 +26,7 @@ func TestGetNotes(t *testing.T) {
 		app, routers, conf := NewApiTest()
 		GetNotes(routers.apiRouter, conf)
 
-		user := fixtures.UserFixtures["user@test.com"]
+		user := fixtures.UserFixtures[0]
 
 		accessToken, _ := token.CreatAccessToken(
 			&user,
@@ -50,7 +50,7 @@ func TestCreateNote(t *testing.T) {
 		app, routers, conf := NewApiTest()
 		CreateNote(routers.apiRouter, conf)
 
-		user := fixtures.UserFixtures["user@test.com"]
+		user := fixtures.UserFixtures[0]
 
 		accessToken, _ := token.CreatAccessToken(
 			&user,
@@ -90,7 +90,7 @@ func TestFailedCreateNote(t *testing.T) {
 		app, routers, conf := NewApiTest()
 		CreateNote(routers.apiRouter, conf)
 
-		user := fixtures.UserFixtures["user@test.com"]
+		user := fixtures.UserFixtures[0]
 
 		accessToken, _ := token.CreatAccessToken(
 			&user,
@@ -120,7 +120,7 @@ func TestUpdateNote(t *testing.T) {
 		app, routers, conf := NewApiTest()
 		UpdateNote(routers.apiRouter, conf)
 
-		user := fixtures.UserFixtures["user@test.com"]
+		user := fixtures.UserFixtures[0]
 
 		accessToken, _ := token.CreatAccessToken(
 			&user,
@@ -156,7 +156,7 @@ func TestUpdateNote(t *testing.T) {
 		app, routers, conf := NewApiTest()
 		UpdateNote(routers.apiRouter, conf)
 
-		user := fixtures.UserFixtures["user@test.com"]
+		user := fixtures.UserFixtures[0]
 
 		accessToken, _ := token.CreatAccessToken(
 			&user,
