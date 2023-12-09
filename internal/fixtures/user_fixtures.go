@@ -25,7 +25,14 @@ var UserFixtures = UserMap{
 func CreateUserFixtures(db *gorm.DB) {
 	fmt.Println("Create user fixtures")
 
-	for _, entity := range UserFixtures {
+	keys := make([]string, 0, len(UserFixtures))
+
+	for k := range UserFixtures {
+		keys = append(keys, k)
+	}
+
+	for _, key := range keys {
+		entity := UserFixtures[key]
 		password, err := bcrypt.GenerateFromPassword(
 			[]byte(entity.Password),
 			bcrypt.DefaultCost,
