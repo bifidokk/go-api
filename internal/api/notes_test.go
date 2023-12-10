@@ -176,4 +176,92 @@ func TestUpdateNote(t *testing.T) {
 
 		assert.Equal(t, http.StatusUnprocessableEntity, r.Code)
 	})
+
+	t.Run("failed edit another users note", func(t *testing.T) {
+		app, routers, conf := NewApiTest()
+		UpdateNote(routers.apiRouter, conf)
+
+		user := fixtures.UserFixtures[0]
+
+		accessToken, _ := token.CreatAccessToken(
+			&user,
+			conf.Env.JwtSecret,
+			int(conf.Env.JwtTtl),
+		)
+
+		headers := map[string]string{
+			"Authorization": "Bearer " + accessToken,
+		}
+
+		body, _ := json.Marshal(note.CreateRequest{
+			Title:       "New note title",
+			Description: "New note description",
+		})
+
+		r := PerformRequestWithBody(app, "PATCH", "/api/notes/3", string(body), headers)
+
+		assert.Equal(t, http.StatusNotFound, r.Code)
+	})
+}
+
+func TestDeleteNote(t *testing.T) {
+	t.Run("succesfull delete a note", func(t *testing.T) {
+		app, routers, conf := NewApiTest()
+		DeleteNote(routers.apiRouter, conf)
+
+		user := fixtures.UserFixtures[0]
+
+		accessToken, _ := token.CreatAccessToken(
+			&user,
+			conf.Env.JwtSecret,
+			int(conf.Env.JwtTtl),
+		)
+
+		headers := map[string]string{
+			"Authorization": "Bearer " + accessToken,
+		}
+
+		r := PerformRequest(app, "DELETE", "/api/notes/1", headers)
+		assert.Equal(t, http.StatusNoContent, r.Code)
+	})
+
+	t.Run("failed delete a none existing note", func(t *testing.T) {
+		app, routers, conf := NewApiTest()
+		DeleteNote(routers.apiRouter, conf)
+
+		user := fixtures.UserFixtures[0]
+
+		accessToken, _ := token.CreatAccessToken(
+			&user,
+			conf.Env.JwtSecret,
+			int(conf.Env.JwtTtl),
+		)
+
+		headers := map[string]string{
+			"Authorization": "Bearer " + accessToken,
+		}
+
+		r := PerformRequest(app, "DELETE", "/api/notes/1000", headers)
+		assert.Equal(t, http.StatusNotFound, r.Code)
+	})
+
+	t.Run("failed delete another users note", func(t *testing.T) {
+		app, routers, conf := NewApiTest()
+		DeleteNote(routers.apiRouter, conf)
+
+		user := fixtures.UserFixtures[0]
+
+		accessToken, _ := token.CreatAccessToken(
+			&user,
+			conf.Env.JwtSecret,
+			int(conf.Env.JwtTtl),
+		)
+
+		headers := map[string]string{
+			"Authorization": "Bearer " + accessToken,
+		}
+
+		r := PerformRequest(app, "DELETE", "/api/notes/3", headers)
+		assert.Equal(t, http.StatusNotFound, r.Code)
+	})
 }
