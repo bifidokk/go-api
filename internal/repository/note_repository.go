@@ -14,6 +14,7 @@ type NoteRepository interface {
 	FindByUser(user *entity.User) (entity.Notes, error)
 	FindUserNoteById(user *entity.User, noteId int) (*entity.Note, error)
 	Save(note *entity.Note) (*entity.Note, error)
+	Delete(note *entity.Note) error
 }
 
 func NewNoteRepository(db *gorm.DB) NoteRepository {
@@ -51,4 +52,10 @@ func (nr *noteRepository) FindUserNoteById(user *entity.User, noteId int) (*enti
 	)
 
 	return &note, result.Error
+}
+
+func (nr *noteRepository) Delete(note *entity.Note) error {
+	result := nr.database.Delete(&note)
+
+	return result.Error
 }

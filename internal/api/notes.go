@@ -91,3 +91,32 @@ func UpdateNote(router *gin.RouterGroup, conf *config.Config) {
 		}
 	})
 }
+
+func DeleteNote(router *gin.RouterGroup, conf *config.Config) {
+	var noteService = conf.Services.NoteService
+	var noteRepository = conf.Repositories.NoteRepository
+
+	router.DELETE("/notes/:id", func(c *gin.Context) {
+		user, _ := c.Get("user")
+		noteId, err := strconv.Atoi(c.Param("id"))
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusNotFound, nil)
+			return
+		}
+
+		userNote, err := noteRepository.FindUserNoteById(user.(*entity.User), noteId)
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusNotFound, nil)
+			return
+		}
+
+		if err := noteService.DeleteNote(userNote); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, nil)
+			return
+		} else {
+			c.JSON(http.StatusNoContent, nil)
+		}
+	})
+}

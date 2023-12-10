@@ -103,7 +103,7 @@ func TestFailedCreateNote(t *testing.T) {
 		}
 
 		body, _ := json.Marshal(note.CreateRequest{
-			Title:       "Note title",
+			Title: "Note title",
 		})
 
 		r := PerformRequestWithBody(app, "POST", "/api/notes", string(body), headers)
