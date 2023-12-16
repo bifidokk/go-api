@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:14.1
     container_name: gin_db
     ports:
       - "${POSTGRES_PORT}:5432"
@@ -10,14 +10,16 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      PGDATA: /var/lib/postgresql/data
+      PGDATA: /var/lib/postgresql/data/
     volumes:
-      - ./db:/var/lib/postgresql/data:rw
+      - ./db:/var/lib/postgresql/data/:rw
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    env_file:
+      - .env.prod
 
   api:
     container_name: gin_api
@@ -28,6 +30,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - .env.prod
 
   migrations:
     container_name: gin_migrations
@@ -36,4 +40,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - .env.prod
   
