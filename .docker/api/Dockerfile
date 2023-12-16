@@ -14,6 +14,7 @@ ARG DOTENV
 RUN echo "$DB_DSN" > "./.env"
 RUN echo "$JWT_SECRET" >> "./.env"
 RUN echo "$JWT_TTL" >> "./.env"
+RUN echo "$SENTRY_DSN" >> "./.env"
 RUN echo "$DOTENV" >> "./.env.dist"
 
 RUN go build ./cmd/app/main.go
