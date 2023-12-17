@@ -27,12 +27,6 @@ jobs:
           file: ./.docker/api/Dockerfile
           push: true
           tags: bifidokk/gin-api:latest
-          build-args: |
-            DB_DSN=${{ secrets.DB_DSN }}
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            JWT_TTL=${{ secrets.JWT_TTL }}
-            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-
       -
         name: Build and push migration image
         uses: docker/build-push-action@v2
