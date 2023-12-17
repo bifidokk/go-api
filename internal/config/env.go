@@ -1,7 +1,8 @@
 package config
 
 import (
-	"log"
+	"fmt"
+	"strconv"
 
 	"github.com/spf13/viper"
 )
@@ -14,13 +15,24 @@ type Env struct {
 }
 
 func (c *Config) loadEnvironmentVariables() {
-	viper.SetConfigFile(ProjectRoot + "/.env")
+	viper.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatal("Error reading env file", err)
+	jwtTtl, _ := strconv.Atoi(getEnv("JWT_TTL"))
+
+	c.Env = &Env{
+		DbDsn:     getEnv("DB_DSN"),
+		JwtSecret: getEnv("JWT_SECRET"),
+		JwtTtl:    uint(jwtTtl),
+		SentryDsn: getEnv("SENTRY_DSN"),
+	}
+}
+
+func getEnv(key string) string {
+	value, ok := viper.Get(key).(string)
+
+	if !ok {
+		fmt.Printf("Invalid type assertion")
 	}
 
-	if err := viper.Unmarshal(&c.Env); err != nil {
-		log.Fatal(err)
-	}
+	return value
 }

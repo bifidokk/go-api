@@ -29,6 +29,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - api_dev.env
 
   migrations:
     container_name: gin_migrations
