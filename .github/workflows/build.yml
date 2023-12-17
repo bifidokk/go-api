@@ -24,9 +24,6 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: 'Create env file'
-        run: |
-          cp .env.pipeline .env
       - run: go mod download
       - name: Build
         run: go build ./cmd/app/
@@ -37,3 +34,8 @@ jobs:
           url: "postgres://postgres:postgres@localhost:5432/api?search_path=public&sslmode=disable"
       - name: Run tests
         run: go test ./...
+        env:
+          DB_DSN: "host=localhost user=postgres password=postgres dbname=api port=5432"
+          JWT_SECRET: "secret"
+          JWT_TTL: 3600
+          SENTRY_DSN: ""

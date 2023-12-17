@@ -31,7 +31,7 @@ services:
       postgres:
         condition: service_healthy
     env_file:
-      - .env.api
+      - api_prod.env
 
   migrations:
     container_name: gin_migrations
